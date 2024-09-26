@@ -1,0 +1,27 @@
+services:
+  web:
+    build: .
+    container_name: fastapi-datbase-app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db/datbase_db
+    volumes:
+      - .:/app
+
+  db:
+    image: postgres:13
+    container_name: datbase-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: datbase_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
